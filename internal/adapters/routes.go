@@ -27,25 +27,30 @@ func (s *Server) routes() {
 	core := s.router.Group("/")
 	core.Use()
 
-	/// compose service logic
+	// compose service logic
 	conf := configuration.GetConfiguration()
 
 	pokeAPIClient := shared.CreateClient(conf.Host, conf.APIKey)
 
+	// TODO: info resource is the same (a.k.a. poke api), this should simulate Gen1Repo as a different resource from others gens.
 	pokemonGen1Repo := pokerepo.NewPokemonsRepository(pokeAPIClient)
 
 	pokemonRepositoryMap := map[pokemon.PokemonGenIDPrefixType]repositories.PokemonRepository{
 		pokemon.Gen1: pokemonGen1Repo,
 	}
 
+	// PokeAPI doesn't have sorting engine, handling a custom one.
 	pkmSorter := pokemonSorter.NewPokemonSorter()
+
 	pokemonUseCases := usecases.NewPokemonUseCases(pokemonRepositoryMap, pkmSorter)
+
 	pokemonService := v1.PokemonService{
 		UseCases: pokemonUseCases,
 	}
-	///
+
+	// Routes
 	{
-		// C1: listing Pokemón info, applying sorting and filtering criteria
+		// R1: listing Pokemón info, applying sorting and filtering criteria
 		core.GET("/pokemons", func(c *gin.Context) { //should move logic to a handler before calling the service
 			var params Params
 
@@ -77,7 +82,7 @@ func (s *Server) routes() {
 			c.IndentedJSON(http.StatusOK, data)
 		})
 
-		// C2: getting a pokemon info
+		// R2: getting a pokemon info
 		core.GET("/pokemon/:poke_id", func(c *gin.Context) { //should move logic to a handler before calling the service
 			var err error
 			pkmID, err := strconv.ParseInt(c.Param("poke_id"), 10, 32)
