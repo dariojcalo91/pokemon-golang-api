@@ -63,10 +63,31 @@ func (p *pokemonsRepository) sendListRequest(ctx context.Context, spcn *specific
 			return nil, repository.HandleError(ctx, "error unmarshalling body to pokemon detail", err)
 		}
 
+		var typeA string
+		var typeB string
+		var moves []string
+
+		if len(pokemonDetail.Types) > 0 && pokemonDetail.Types[0].Type.Name != "" {
+			typeA = pokemonDetail.Types[0].Type.Name
+		}
+		if len(pokemonDetail.Types) > 1 && pokemonDetail.Types[1].Type.Name != "" {
+			typeB = pokemonDetail.Types[1].Type.Name
+		}
+
+		if len(pokemonDetail.Moves) > 0 {
+			for _, move := range pokemonDetail.Moves {
+				moves = append(moves, move.Move.Name)
+			}
+		}
+
 		listPokemonDTOs = append(listPokemonDTOs, PokemonDTO{
-			ID:   pokemonDetail.ID,
-			Name: pokemonDetail.Name,
-			Type: pokemonDetail.Types[0].Type.Name,
+			ID:     pokemonDetail.ID,
+			Name:   pokemonDetail.Name,
+			TypeA:  typeA,
+			TypeB:  typeB,
+			Moves:  moves,
+			Height: pokemonDetail.Height,
+			Weight: pokemonDetail.Weight,
 		})
 	}
 

@@ -50,6 +50,8 @@ var (
 		"water":  Water,
 		"grass":  Grass,
 		"fairy":  Fairy,
+		"poison": Poison,
+		"flying": Flying,
 		// TODO map all types
 	}
 )

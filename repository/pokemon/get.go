@@ -40,8 +40,8 @@ func (p *pokemonsRepository) sendRequest(ctx context.Context, pokemonID int) (*P
 	}
 
 	return &PokemonDTO{
-		ID:   pokemonDetail.ID,
-		Name: pokemonDetail.Name,
-		Type: pokemonDetail.Types[0].Type.Name,
+		ID:    pokemonDetail.ID,
+		Name:  pokemonDetail.Name,
+		TypeA: pokemonDetail.Types[0].Type.Name,
 	}, nil
 }

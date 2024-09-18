@@ -17,10 +17,19 @@ type Type struct {
 	} `json:"Type"`
 }
 
+type Move struct {
+	Move struct {
+		Name string `json:"name"`
+	} `json:"Move"`
+}
+
 type PokemonDetail struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Types []Type `json:"types"`
+	ID     int    `json:"id"`
+	Name   string `json:"name"`
+	Types  []Type `json:"types"`
+	Moves  []Move `json:"moves"`
+	Height int    `json:"height"`
+	Weight int    `json:"weight"`
 }
 
 type Result struct {
@@ -33,16 +42,24 @@ type PokemonList struct {
 }
 
 type PokemonDTO struct {
-	ID   int
-	Name string
-	Type string
+	ID     int
+	Name   string
+	TypeA  string
+	TypeB  string
+	Moves  []string
+	Height int
+	Weight int
 }
 
 func (pokemonDTO *PokemonDTO) Pokemon(ctx context.Context) (*pokemon.Pokemon, error) {
 	pokemonParams := &pokemon.PokemonParams{
-		ID:   pokemonDTO.ID,
-		Name: pokemonDTO.Name,
-		Type: pokemonDTO.Type,
+		ID:     pokemonDTO.ID,
+		Name:   pokemonDTO.Name,
+		TypeA:  pokemonDTO.TypeA,
+		TypeB:  pokemonDTO.TypeB,
+		Moves:  pokemonDTO.Moves,
+		Height: pokemonDTO.Height,
+		Weight: pokemonDTO.Weight,
 	}
 
 	p, err := pokemon.NewPokemon(pokemonParams)
