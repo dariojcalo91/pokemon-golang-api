@@ -5,6 +5,7 @@ This pet project is related to the practice of:
 - Golang basics
 - Hexagonal architecture
 - CI/CD
+- Docker
 - Unit testing
 
 # TODO List / Next steps

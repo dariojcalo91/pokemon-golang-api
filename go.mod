@@ -1,6 +1,6 @@
 module github.com/dario-labs/srv
 
-go 1.22.1
+go 1.22
 
 require github.com/go-resty/resty/v2 v2.13.1
 
